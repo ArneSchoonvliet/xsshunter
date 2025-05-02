@@ -1,4 +1,3 @@
-const bcrypt = require('bcrypt');
 const openpgp = require('openpgp');
 const { Storage } = require('@google-cloud/storage');
 const express = require('express');
@@ -19,11 +18,8 @@ const CollectedPages = database.CollectedPages;
 const InjectionRequests = database.InjectionRequests;
 const constants = require('./constants.js');
 const validate = require('express-jsonschema').validate;
-const get_hashed_password = require('./utils.js').get_hashed_password;
-const get_secure_random_string = require('./utils.js').get_secure_random_string;
 const {google} = require('googleapis');
 const {OAuth2Client} = require('google-auth-library');
-const Sentry = require('@sentry/node');
 
 
 const SCREENSHOTS_DIR = path.resolve(process.env.SCREENSHOTS_DIR);
@@ -205,7 +201,6 @@ async function set_up_api_server(app) {
           res.redirect("/app/");
       } catch (error) {
         console.error(`Error Occured: ${error}`);
-        Sentry.captureException(error);
         res.status(500).send("Error Occured. We're seeing a lot of traffic now. Please try again soon.");
       }
     });
@@ -242,7 +237,6 @@ async function set_up_api_server(app) {
             } catch (error) {
                 console.error(error.stack);
                 console.log("An error occurred looking up object")
-                Sentry.captureException(error);
                 res.status(404).send(`Error retrieving image from GCS`);
             }
         }else{
@@ -641,7 +635,6 @@ async function set_up_api_server(app) {
 	            }).end();
 	            return
         	}
-            Sentry.captureException(e);
             res.status(200).json({
                 "success": false,
                 "error": "An unexpected error occurred.",

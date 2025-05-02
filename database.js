@@ -1,8 +1,6 @@
 const Sequelize = require('sequelize');
 const uuid = require('uuid');
 
-const get_secure_random_string = require('./utils.js').get_secure_random_string;
-const get_hashed_password = require('./utils.js').get_hashed_password;
 const constants = require('./constants.js');
 
 const sequelize = new Sequelize(

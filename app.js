@@ -17,9 +17,6 @@ const notification = require('./notification.js');
 const api = require('./api.js');
 const validate = require('express-jsonschema').validate;
 const constants = require('./constants.js');
-const Sentry = require('@sentry/node');
-const Tracing = require("@sentry/tracing");
-const Profiling = require("@sentry/profiling-node");
 
 function set_secure_headers(req, res) {
 	res.set("X-XSS-Protection", "mode=block");
@@ -54,30 +51,6 @@ const SCREENSHOTS_DIR = path.resolve(process.env.SCREENSHOTS_DIR);
 async function get_app_server() {
 	const app = express();
 	
-	if (process.env.SENTRY_ENABLED === "true") {
-		Sentry.init({
-			dsn: process.env.SENTRY_DSN,
-			integrations: [
-				// enable HTTP calls tracing
-				new Sentry.Integrations.Http({ tracing: true }),
-				// enable Express.js middleware tracing
-				new Tracing.Integrations.Express({ app }),
-				// add beta profiling integration
-				new Profiling.ProfilingIntegration()
-			],
-			// 1.0 is 100% capture rate
-			profilesSampleRate: 1.0,
-			tracesSampleRate: 0.01,
-		});
-
-		// RequestHandler creates a separate execution context using domains, so that every
-		// transaction/span/breadcrumb is attached to its own Hub instance
-		app.use(Sentry.Handlers.requestHandler());
-		// TracingHandler creates a trace for every incoming request
-		app.use(Sentry.Handlers.tracingHandler());
-		app.use(Sentry.Handlers.errorHandler());
-	}
-
 	app.set('trust proxy', true);
 	app.disable('x-powered-by');
 
@@ -287,12 +260,10 @@ async function get_app_server() {
         let payload_fire_data = {}
         if(encrypted){
             if (req.body.encrypted_data.length > 100000){
-                Sentry.captureMessage(`encrypted data length too long: ${req.body.encrypted_data.length}`);
                 return res.status(400).json({
                     "status": "error encrypted data length too long"
                 }).end();
             }else if (req.body.pgp_key.length > 100000){
-                Sentry.captureMessage(`public key  length too long: ${req.body.pgp_key.length}`);
                 return res.status(400).json({
                     "status": "error public key length too long"
                 }).end();
