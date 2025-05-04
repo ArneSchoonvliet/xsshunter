@@ -121,7 +121,6 @@ export default {
         // Base domain
         this.base_domain = res["result"]["uri"];
     },
-    beforeDestroy() {}
 };
 </script>
 <style>

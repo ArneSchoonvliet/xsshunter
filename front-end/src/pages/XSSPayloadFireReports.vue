@@ -343,7 +343,6 @@ export default {
         // Pull XSS payload fires
         await this.pull_payload_fire_reports();
     },
-    beforeDestroy() {}
 };
 </script>
 <style>

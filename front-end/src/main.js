@@ -11,7 +11,7 @@
  * The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
 
  */
-import { createApp } from "vue";
+import { createApp, configureCompat } from "vue";
 // import VueRouter from "vue-router";
 import RouterPrefetch from 'vue-router-prefetch'
 import App from "./App.vue";
@@ -19,6 +19,9 @@ import App from "./App.vue";
 import router from "./router/index";
 
 import BlackDashboard from "./plugins/blackDashboard";
+
+configureCompat({ TRANSITION_GROUP_ROOT: false })
+
 // import i18n from "./i18n"
 //import './registerServiceWorker'
 // Vue.use(BlackDashboard);

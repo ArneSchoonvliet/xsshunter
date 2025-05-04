@@ -240,7 +240,6 @@ export default {
 
         await this.pull_latest_settings();
     },
-    beforeDestroy() {}
 };
 </script>
 <style>

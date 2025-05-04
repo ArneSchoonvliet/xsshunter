@@ -1,13 +1,14 @@
 <template>
   <div class="content">
-    <fade-transition :duration="100" mode="out-in">
-      <!-- your content here -->
-      <router-view></router-view>
-    </fade-transition>
+    <router-view v-slot="{ Component }">
+      <fade-transition :duration="1000" mode="out-in">
+        <component :is="Component" />
+      </fade-transition>
+    </router-view>
   </div>
 </template>
 <script>
-  import {FadeTransition} from 'vue2-transitions';
+  import {FadeTransition} from '@noction/vue-bezier';
   export default {
     components: {
       FadeTransition

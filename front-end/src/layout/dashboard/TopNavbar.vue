@@ -28,7 +28,7 @@
   </nav>
 </template>
 <script>
-  import { CollapseTransition } from 'vue2-transitions';
+  import { CollapseTransition } from '@noction/vue-bezier';
   import Modal from '../../components/Modal.vue';
 
   export default {

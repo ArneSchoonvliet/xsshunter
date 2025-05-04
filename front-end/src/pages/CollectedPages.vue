@@ -126,7 +126,6 @@ export default {
         // Pull collected pages
         await this.pull_collected_pages();
     },
-    beforeDestroy() {}
 };
 </script>
 <style>

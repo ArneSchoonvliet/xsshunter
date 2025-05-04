@@ -1,6 +1,6 @@
 <template>
   <div class="notifications">
-    <transition-group :name="transitionName"
+    <transition-group tag="span" :name="transitionName"
                       :mode="transitionMode">
       <notification
         v-for="notification in notifications"
