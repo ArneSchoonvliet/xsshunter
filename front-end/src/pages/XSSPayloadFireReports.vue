@@ -23,11 +23,11 @@
                                             <code>{{report.url}}</code>
                                         </h4>
                                         <p class="card-text text-right">
-                                            <i>Fired {{report.createdAt | moment("from", "now") }}</i>
+                                            <i>Fired {{report.createdAt }}</i>
                                         </p>
                                     </div>
                                     <div v-else>
-                                        <a class="m-0 w-100 btn-fill" v-bind:href="base_api_path + '/screenshots/' + report.screenshot_id + '.b64png.enc'" target="_blank" class="fas fa-angle-double-down">Download encrypted screenshot</a> 
+                                        <a class="m-0 w-100 btn-fill fas fa-angle-double-down" v-bind:href="base_api_path + '/screenshots/' + report.screenshot_id + '.b64png.enc'" target="_blank">Download encrypted screenshot</a> 
                                     </div>
                                     <div class="mt-3 button-full">
                                         <base-button class="m-0 btn-fill" simple type="primary" v-on:click="expand_report(report.id)" v-if="!is_report_id_expanded(report.id)">
@@ -169,11 +169,10 @@
                                                 </small>
                                             </div>
                                             <div class="m-2 mt-4" v-if="report.secrets">
-                                                <pre v-for="secret in report.secrets">Secret type: {{ secret.secret_type }}
-    Secret value: {{ secret.secret_value }}</pre>
+                                                <pre v-for="secret in report.secrets">Secret type: {{ secret.secret_type }} Secret value: {{ secret.secret_value }}</pre>
                                             </div>
-                                            <div>
-                                                <pre v-else>No secrets detected</pre>
+                                            <div v-else>
+                                                <pre >No secrets detected</pre>
                                             </div>
                                             <hr />
                                         </div>
@@ -211,7 +210,7 @@
                                                 </small>
                                             </div>
                                             <div class="m-2 mt-4">
-                                                <pre v-if="report.browser_timestamp">{{ new Date(parseInt(report.browser_timestamp)) | moment("dddd, MMMM Do YYYY, h:mm:ss a")}} (<i>{{report.browser_timestamp}}</i>)</pre>
+                                                <pre v-if="report.browser_timestamp">{{ new Date(parseInt(report.browser_timestamp)) }} (<i>{{report.browser_timestamp}}</i>)</pre>
                                                 <pre v-else><i>None</i></pre>
                                             </div>
                                             <hr />
@@ -224,11 +223,10 @@
                                                 </small>
                                             </div>
                                             <div class="m-2 mt-4">
-                                                <pre>Fired in iFrame?: {{report.was_iframe}}
-    Vulnerability enumerated {{ report.createdAt | moment("dddd, MMMM Do YYYY, h:mm:ss a") }}
-    Report ID: {{report.id}}</pre>
+                                                <pre>Fired in iFrame?: {{report.was_iframe}} Vulnerability enumerated {{ report.createdAt }} Report ID: {{report.id}}</pre>
                                             <hr />
                                         </div>
+                                    </div>
                                     </div>
 
                                     <base-button simple block type="primary" class="mt-4" v-on:click="collapse_report(report.id)" v-if="is_report_id_expanded(report.id)">
@@ -254,13 +252,8 @@
     </div>
 </template>
 <script>
-import BasePagination from '@/components/BasePagination';
-import config from '@/config';
-import Vue from "vue";
-import api_request from '@/libs/api.js';
-import router from "@/router/index";
-import utils from '@/libs/utils';
-const copy = utils.copy;
+import BasePagination from '../components/BasePagination.vue';
+import api_request from '../libs/api.js';
 
 export default {
     data() {

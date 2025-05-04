@@ -10,7 +10,7 @@ function urlsafe_base64_encode(value) {
 	return btoa(value).replace(/\=/g, '');
 }
 
-module.exports = {
+export default {
     copy,
     html_encode,
     urlsafe_base64_encode

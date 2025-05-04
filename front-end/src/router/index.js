@@ -1,9 +1,10 @@
-import VueRouter from "vue-router";
+import { createRouter, createWebHashHistory } from 'vue-router'
 import routes from "./routes";
 
 // configure router
-const router = new VueRouter({
+const router = createRouter({
   routes, // short for routes: routes
+  history: createWebHashHistory(),
   linkExactActiveClass: "active",
   scrollBehavior: (to) => {
     if (to.hash) {

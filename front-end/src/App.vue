@@ -18,9 +18,9 @@
     </div>
 </template>
 <script>
-import Modal from "./components/Modal";
-import BaseAlert from "./components/BaseAlert";
-import api_request from '@/libs/api.js';
+import Modal from "./components/Modal.vue";
+import BaseAlert from "./components/BaseAlert.vue";
+import api_request from './libs/api.js';
 
 export default {
     components: {
@@ -71,6 +71,10 @@ export default {
         googleLogin(){
             window.location = "/login";
         }
+    },
+    created() {
+        console.log("App created");
+        console.log(this.$route);
     },
     async mounted() {
         this.loading = true;

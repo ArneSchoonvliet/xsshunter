@@ -50,13 +50,8 @@
     </div>
 </template>
 <script>
-import BasePagination from '@/components/BasePagination';
-import config from '@/config';
-import Vue from "vue";
-import api_request from '@/libs/api.js';
-import router from "@/router/index";
-import utils from '@/libs/utils';
-const copy = utils.copy;
+import BasePagination from '../components/BasePagination.vue';
+import { delete_collect_pages, get_collect_pages, BASE_API_PATH } from '../libs/api.js';
 
 export default {
     data() {
@@ -88,11 +83,11 @@ export default {
     },
     methods: {
         async delete_collected_page(collected_page_id) {
-            const result = await api_request.delete_collect_pages([collected_page_id]);
+            const result = await delete_collect_pages([collected_page_id]);
             this.pull_collected_pages();
         },
         async pull_collected_pages() {
-            const response = await api_request.get_collect_pages(
+            const response = await get_collect_pages(
                 this.page,
                 this.limit
             );
@@ -126,7 +121,7 @@ export default {
         window.app = this;
 
         // For rendering
-        this.base_api_path = api_request.BASE_API_PATH;
+        this.base_api_path = BASE_API_PATH;
 
         // Pull collected pages
         await this.pull_collected_pages();

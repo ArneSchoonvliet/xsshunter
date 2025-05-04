@@ -69,12 +69,8 @@
     </div>
 </template>
 <script>
-import config from '@/config';
-import Vue from "vue";
-import api_request from '@/libs/api.js';
-import router from "@/router/index";
-import utils from '@/libs/utils';
-import BaseAlert from '@/components/BaseAlert.vue';
+import api_request from '../libs/api.js';
+import BaseAlert from '../components/BaseAlert.vue';
 
 export default {
     data() {

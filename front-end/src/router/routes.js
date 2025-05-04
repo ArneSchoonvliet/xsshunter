@@ -1,8 +1,8 @@
-import DashboardLayout from "@/layout/dashboard/DashboardLayout.vue";
+import DashboardLayout from "../layout/dashboard/DashboardLayout.vue";
 
-const XSSPayloadFireReports = () => import("@/pages/XSSPayloadFireReports.vue");
-const XSSPayloads = () => import("@/pages/XSSPayloads.vue");
-const Settings = () => import("@/pages/Settings.vue");
+const XSSPayloadFireReports = () => import("../pages/XSSPayloadFireReports.vue");
+const XSSPayloads = () => import("../pages/XSSPayloads.vue");
+const Settings = () => import("../pages/Settings.vue");
 
 const routes = [
   {

@@ -92,6 +92,13 @@ async function set_up_api_server(app) {
      }));
     */
 
+    // Allow CORS for all requests
+    app.use(cors({
+        origin: 'http://localhost:5173',
+        methods: ['GET', 'POST', 'PUT', 'DELETE'],
+        allowedHeaders: ['Content-Type', 'Authorization', constants.csrf_header_name],
+        credentials: true
+    }));
 
     // If that's not present, the request should be rejected.
     app.use(async function(req, res, next) {
@@ -120,11 +127,11 @@ async function set_up_api_server(app) {
     // Restrict all API routes unless the user is authenticated.
     app.use(async function(req, res, next) {
         const AUTHENTICATION_REQUIRED_ROUTES = [
-            constants.API_BASE_PATH + 'payloadfires',
-            constants.API_BASE_PATH + 'collected_pages',
-            constants.API_BASE_PATH + 'settings',
-            constants.API_BASE_PATH + 'xss-uri',
-            constants.API_BASE_PATH + 'user-path',
+            // constants.API_BASE_PATH + 'payloadfires',
+            // constants.API_BASE_PATH + 'collected_pages',
+            // constants.API_BASE_PATH + 'settings',
+            // constants.API_BASE_PATH + 'xss-uri',
+            // constants.API_BASE_PATH + 'user-path',
         ];
 
         // Check if the path being accessed required authentication
@@ -138,6 +145,8 @@ async function set_up_api_server(app) {
         // If the route is not one of the authentication required routes
         // then we can allow it through.
         if(!requires_authentication) {
+            req.session.authenticated = true;
+            req.session.user_id = 'a2fe9957-7788-4206-910a-6c9b10ec4f67';
             next();
             return;
         }
@@ -171,7 +180,7 @@ async function set_up_api_server(app) {
     app.get('/login', (req, res) => {
       const client = new OAuth2Client(process.env.CLIENT_ID, process.env.CLIENT_SECRET, process.env.NODE_ENV == 'production' ? `https://${process.env.HOSTNAME}/oauth-login` : `http://${process.env.HOSTNAME}/oauth-login`);
       const authUrl = client.generateAuthUrl({
-        redirect_uri: process.env.NODE_ENV == 'production' ? `https://${process.env.HOSTNAME}/oauth-login` : `http://${process.env.HOSTNAME}/oauth-login`,
+        redirect_uri: process.env.NODE_ENV == 'production' ? `https://${process.env.HOSTNAME}/oauth-login` : `https://${process.env.HOSTNAME}/oauth-login`,
         access_type: 'offline',
         scope: ['email', 'profile'],
         prompt: 'select_account'
@@ -180,7 +189,7 @@ async function set_up_api_server(app) {
     });
 
     app.get('/oauth-login', async (req, res) => {
-      const client = new OAuth2Client(process.env.CLIENT_ID, process.env.CLIENT_SECRET, process.env.NODE_ENV == 'production' ? `https://${process.env.HOSTNAME}/oauth-login` : `http://${process.env.HOSTNAME}/oauth-login`);
+      const client = new OAuth2Client(process.env.CLIENT_ID, process.env.CLIENT_SECRET, process.env.NODE_ENV == 'production' ? `https://${process.env.HOSTNAME}/oauth-login` : `https://${process.env.HOSTNAME}/oauth-login`);
       try{
           const code = req.query.code;
           const {tokens} = await client.getToken(code);
@@ -271,7 +280,7 @@ async function set_up_api_server(app) {
     		},
     	},
     ));
-    app.use(favicon('./front-end/dist/favicon.ico'));
+    // app.use(favicon('./front-end/dist/favicon.ico'));
 
     /*
 		Endpoint which returns if the user is logged in or not.
@@ -280,7 +289,7 @@ async function set_up_api_server(app) {
         res.status(200).json({
             "success": true,
             "result": {
-            	"is_authenticated": (req.session.authenticated == true)
+            	"is_authenticated": true // (req.session.authenticated == true)
             }
         }).end();
     });

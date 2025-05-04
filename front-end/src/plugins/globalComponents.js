@@ -1,16 +1,16 @@
-import { BaseInput, Card, BaseDropdown, BaseButton, BaseCheckbox, BasePagination } from "../components/index";
+import { BaseInput, Card, BaseDropdown, BaseButton, BaseCheckbox, BasePagination } from "../components/index.js";
 /**
  * You can register global components here and use them as a plugin in your main Vue instance
  */
 
 const GlobalComponents = {
-  install(Vue) {
-    Vue.component(BaseInput.name, BaseInput);
-    Vue.component(Card.name, Card);
-    Vue.component(BasePagination.name, BasePagination);
-    Vue.component(BaseDropdown.name, BaseDropdown);
-    Vue.component(BaseButton.name, BaseButton);
-    Vue.component(BaseCheckbox.name, BaseCheckbox);
+  install(app) {
+    app.component(BaseInput.name, BaseInput);
+    app.component(Card.name, Card);
+    app.component(BasePagination.name, BasePagination);
+    app.component(BaseDropdown.name, BaseDropdown);
+    app.component(BaseButton.name, BaseButton);
+    app.component(BaseCheckbox.name, BaseCheckbox);
   }
 };
 

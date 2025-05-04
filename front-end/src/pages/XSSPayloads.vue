@@ -25,11 +25,8 @@
     </div>
 </template>
 <script>
-import config from '@/config';
-import Vue from "vue";
-import api_request from '@/libs/api.js';
-import router from "@/router/index";
-import utils from '@/libs/utils';
+import api_request from '../libs/api.js';
+import utils from '../libs/utils.js';
 const html_encode = utils.html_encode;
 const urlsafe_base64_encode = utils.urlsafe_base64_encode;
 
