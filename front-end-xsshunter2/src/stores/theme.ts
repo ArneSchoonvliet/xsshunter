@@ -1,8 +1,9 @@
-import { ref, watch } from 'vue'
+import { readonly, ref, watch } from 'vue'
 import { defineStore } from 'pinia'
 
 export const useThemeStore = defineStore('theme', () => {
   const theme = ref<'light' | 'dark'>('light')
+  const readonlyTheme = readonly(theme)
   const isSystemTheme = ref(true)
 
   // Initialize theme based on system preference
@@ -49,7 +50,7 @@ export const useThemeStore = defineStore('theme', () => {
   watch(theme, applyTheme)
 
   return {
-    theme,
+    readonlyTheme,
     isSystemTheme,
     toggleTheme,
     resetToSystemTheme,

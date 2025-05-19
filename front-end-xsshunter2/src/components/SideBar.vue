@@ -12,7 +12,7 @@
         :key="index"
         :to="link.to"
         class="block p-2 hover:bg-background"
-        exact-active-class="bg-background"
+        active-class="bg-background"
       >
         <FontAwesomeIcon :icon="link.icon" />
         <span class="ml-2">{{ link.label }}</span>

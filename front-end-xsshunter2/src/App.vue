@@ -13,13 +13,13 @@
       :toggleSidebar="toggleSidebar"
       :class="[
         'bg-secondary h-screen z-30 transition-all duration-300 ease-in-out overflow-hidden whitespace-nowrap',
-        collapsed ? 'w-16' : 'w-80',
+        collapsed ? 'min-w-16' : 'min-w-80',
         isMobile ? (collapsed ? 'absolute -left-80' : 'absolute left-0') : '',
       ]"
     />
 
     <!-- Main Content -->
-    <section class="flex flex-col h-screen w-screen">
+    <section class="flex flex-col h-screen min-w-0 grow">
       <header class="p-4 flex justify-between items-center shadow">
         <button @click="toggleSidebar" class="md:hidden">
           <IconSideBar />
@@ -28,7 +28,7 @@
         <ThemeToggle />
       </header>
       <main
-        class="p-4 overflow-y-scroll scrollbar-thin scrollbar-track-background scrollbar-thumb-gray-400 scrollbar-thumb-rounded-full"
+        class="p-4 overflow-y-scroll wrap-break-word scrollbar-thin scrollbar-track-background scrollbar-thumb-gray-400 scrollbar-thumb-rounded-full"
       >
         <RouterView />
       </main>

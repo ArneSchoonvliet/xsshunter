@@ -16,11 +16,11 @@ onMounted(() => {
     <button
       @click="themeStore.toggleTheme()"
       class="p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors"
-      :title="themeStore.theme === 'dark' ? 'Switch to light mode' : 'Switch to dark mode'"
+      :title="themeStore.readonlyTheme === 'dark' ? 'Switch to light mode' : 'Switch to dark mode'"
     >
       <!-- Sun icon for light mode -->
       <svg
-        v-if="themeStore.theme === 'dark'"
+        v-if="themeStore.readonlyTheme === 'dark'"
         xmlns="http://www.w3.org/2000/svg"
         class="w-5 h-5"
         fill="none"

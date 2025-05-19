@@ -19,6 +19,13 @@ const router = createRouter({
       meta: { sidebar: true, icon: ['fas', 'fire'] }
     },
     {
+      path: '/xss-fires/:payloadId',
+      name: 'XSS payload fire detail',
+      component: () => import('../views/XssPayloadFireReportDetailView.vue'),
+      props: true,
+      meta: { sidebar: false, icon: [] }
+    },
+    {
       path: '/xss-payloads',
       name: 'XSS payloads',
       component: () => import('../views/XssPayloadsView.vue'),
